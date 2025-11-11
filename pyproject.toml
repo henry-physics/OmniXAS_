@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "omnixas"
 version = "3.0.0"
 description = "Machine learning-based X-ray Absorption Spectroscopy (XAS) prediction"
-requires-python = "==3.11"
+requires-python = "==3.11.*"
 authors = [{ name = "Shubha Raj Kharel", email = "your.email@example.com" }]
 dependencies = [
     "loguru>=0.7.2",

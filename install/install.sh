@@ -2,7 +2,7 @@
 
 # Install PyTorch and related packages with pip
 pip install --no-cache-dir \
-    torch==2.5.0 \
+    torch==2.2.0 \
     torchvision \
     torchaudio \
     lightning \

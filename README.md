@@ -1,15 +1,4 @@
-<div align="center">
 
-<h1>Omnixas</h1>
-
-</div>
-
-OmniXAS is a library designed to predict X-ray Absorption Spectra from material structures using deep learning as outlined in our [manuscript](https://www.arxiv.org/abs/2409.19552) . It provides a modnlar and extensible framework for data processing, model training and evaluating deep learning models for XAS prediction. Inference using the trained models is also integrated into [Lightshow](https://github.com/AI-multimodal/Lightshow).
-
-
-- [Funding acknowledgement](#funding-acknowledgement)
-- [Citation](#citation)
-- [Contact](#contact)
 
 ****
 11_10_25

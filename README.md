@@ -7,46 +7,18 @@
 OmniXAS is a library designed to predict X-ray Absorption Spectra from material structures using deep learning as outlined in our [manuscript](https://www.arxiv.org/abs/2409.19552) . It provides a modnlar and extensible framework for data processing, model training and evaluating deep learning models for XAS prediction. Inference using the trained models is also integrated into [Lightshow](https://github.com/AI-multimodal/Lightshow).
 
 
-- [Installation](#installation)
-  - [Development](#development)
-  - [Docker](#docker)
-- [Usage](#usage)
-  - [Featurization](#featurization)
-  - [Material Splitting](#material-splitting)
-  - [ML Split](#ml-split)
-  - [Scaling (Optional)](#scaling-optional)
-  - [Training](#training)
-  - [Evaluation](#evaluation)
-  - [Plotting](#plotting)
-- [Abstract](#abstract)
 - [Funding acknowledgement](#funding-acknowledgement)
 - [Citation](#citation)
 - [Contact](#contact)
 
-## Installation
+****
+11_10_25
+just for my own purposes 
 
 ```bash
-pip install -v "git+https://github.com/AI-multimodal/OmniXAS.git"
+pip install -v "git+https://github.com/henry-physics/OmniXAS.git"
 ```
 
-### Development
-
-```bash
-git clone https://github.com/AI-multimodal/OmniXAS.git
-cd OmniXAS
-conda create --name omnixas python=3.11.0
-conda activate omnixas
-pip install -v -e .
-```
-Environment also available at [install.sh](install/install.sh).
-
-
-### Docker
-
-```bash
-docker build -t omnixas:bnl install
-docker run --gpus [all|'"device=0,1,2"'] -v /path/OmniXAS:/workspace -it --user $(id -u):$(id -g) omnixas:bnl bash
-```
 
 
 ## Usage
@@ -58,113 +30,7 @@ import omnixas
 # Example usage code here
 ```
 
-### Featurization
 
-```python
-from omnixas.data.xas import ElementSpectrum, IntensityValues, Material, EnergyGrid
-from omnixas.core.periodic_table import Element, SpectrumType
-from omnixas.featurizer.m3gnet_featurizer import M3GNetSiteFeaturizer
-
-spectrum_1 = ElementSpectrum(
-    element=Element.Cu,
-    type=SpectrumType.FEFF,
-    index=0,
-    material= Material( id = ..., structure = ...),
-    intensities=IntensityValues(...)
-    energies=EnergyGrid(...),
-)
-
-# featurize material structure corresponding to the spectrum_1
-feature_1 = M3GNetSiteFeaturizer().featurize(spectrum_1.material.structure, spectrum_1.index)
-...
-features = [feature_1, feature_2, ...]
-spectra = [spectrum_1.intensities, spectrum_2.intensities, ...]
-```
-
-### Material Splitting
-
-```python
-
-from omnixas.data.material_split import MaterialSplitter
-idSite = [(id, site) for id in spectra.keys() for site in spectra[id].keys()]
-split_idSite = MaterialSplitter.split(
-    idSite=idSite,
-    target_fractions=target_fractions,
-    seed=seed
-)
-train_idSite, val_idSite, test_idSite = split_idSite
-```
-
-### ML Split
-
-```python
-from omnixas.data.ml_data import MLData, MLSplits
-train_data = MLData(
-    X=[features[id][site] for id, site in train_idSite],
-    y=[spectra[id][site] for id, site in train_idSite],
-)
-val_data = ...
-test_data = ...
-split = MLSplits(train=train_data, val=valdata, test=testdata)
-```
-
-### Scaling (Optional)
-
-- `Warning`: Do not use scaler that makes the spectrum values negative if the models produce only positive values (e.g. `XASBlock` with `Softplus` activation !!)
-
-```python
-from omnixas.data.scaler import ScaledMlSplit, UncenteredRobustScaler
-split = ScaledMlSplit.from_splits(
-    splits= MLSplits,
-    x_scaler= UncenteredRobustScaler,
-    y_scaler= UncenteredRobustScaler,
-)
-```
-
-### Training
-
-```python
-
-from omnixas.model.xasblock_regressor import XASBlockRegressor
-model = XASBlockRegressor(
-    directory=f"checkpoints/{element}",
-    max_epochs=100,
-    early_stopping_patience=25,  # stops if val_loss does not improve for 25 epochs
-    overwrite_save_dir=True,  # delete save_dir else adds new files to it
-    input_dim=64, # feature dimension
-    output_dim=200, # spectra dimension
-    hidden_dims=[200,200], # widths of hidden layer of MLP
-    initial_lr=1e-2,  # initial learning rate, will be optimized by lr finder later
-    batch_size=128,
-)
-model.fit(split) # full split object needs to be passed coz it contains val data used in logging
-```
-
-### Evaluation
-
-```python
-from omnixas.model.metrics import ModelMetrics
-predictions = model.predict(split.val.X)
-targets = split.val.y
-metrics = ModelMetrics(predictions=predictions, targets=targets) 
-print(f"MSE: {metrics.mse}")
-print(f"Median of mse of spectra: {metrics.median_of_mse_per_spectra}")
-```
-
-### Plotting
-
-```python
-deciles = metrics.deciles
-fig, axs = plt.subplots(9, 1, figsize=(6, 20))
-for i, (d, ax) in enumerate(zip(deciles, axs)):
-    ax.plot(d[0], label="target")
-    ax.plot(d[1], label="prediction")
-    ax.fill_between( range(len(d[0])), d[0], d[1], alpha=0.5, interpolate=True)
-    ax.legend()
-    ax.set_title(f"Decile {i+1}")
-fig.tight_layout()
-fig.show()
-```
 
 ## Abstract
 

@@ -174,7 +174,7 @@ dependencies:
       - tinycss2==1.4.0
       - torch==2.2.0
       - torchaudio==2.1.0
-      - torchdata==0.7.0
+      - torchdata==0.7.1
       - torchmetrics==1.6.1
       - torchsummary==1.5.1
       - tornado==6.4.2

@@ -5,7 +5,7 @@
 just for my own purposes 
 
 ```bash
-pip install -v "git+https://github.com/henry-physics/OmniXAS.git"
+pip install -v "git+https://github.com/henry-physics/OmniXAS_.git"
 ```
 
 

@@ -13,7 +13,7 @@ dependencies = [
     "pip>=24.3",
     "ply>=3.6",
     "torch==2.2.0",          # dgl is not supported beyond this
-    "torchdata==0.7.0",      # https://discuss.pytorch.org/t/modulenotfounderror-no-module-named-torch-utils-import-utils/208935/4#:~:text=Oct%202024-,torch,-%3D%3D2.1.0%20%26%20torchdata%3D%3D0.7.0    "torchvision",
+    "torchdata==0.7.1",      # https://discuss.pytorch.org/t/modulenotfounderror-no-module-named-torch-utils-import-utils/208935/4#:~:text=Oct%202024-,torch,-%3D%3D2.1.0%20%26%20torchdata%3D%3D0.7.0    "torchvision",
     "torchaudio",
     "lightning",
     "hydra-core==1.3.2",

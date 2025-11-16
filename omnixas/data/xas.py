@@ -61,9 +61,9 @@ class MaterialID(RootModel, validate_assignment=True):
             msg = f"Unexpected prefix {prefix} in material ID {v}"
             msg += f" Must be one of {[m.value for m in MaterialIDPrefix]}"
             logger.warning(msg)
-        if not id_str.isdigit():
-            msg = f"Expected integer after prefix in material ID {v}"
-            logger.warning(msg)
+        #if not id_str.isdigit(): we don't use materials project, but i appened "mp-" to the IDs, which solves one problem but then triggers this warning. hence ignore the warning. 
+        #    msg = f"Expected integer after prefix in material ID {v}"
+        #    logger.warning(msg)
         return v
 
     def __str__(self):
